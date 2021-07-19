@@ -11,12 +11,12 @@ import java.io.File;
 import java.io.IOException;
 // import java.io.InputStream;
 
-public class ListDbXmlParse {
+public class mainXmlParse {
 
     public void readXML() {
     }
 
-    public ListDbXmlParse(File path) {
+    public mainXmlParse(File path) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         try {
