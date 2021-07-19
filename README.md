@@ -1,14 +1,4 @@
-## Getting Started
+## MiniDB
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+MiniDB is a [key-value database](https://en.wikipedia.org/wiki/Key%E2%80%93value_database). While this is not a perfect example of it, This is just a simple implementation of it which is subjectable.
 
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).

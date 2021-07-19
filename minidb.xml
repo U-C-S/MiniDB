@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+    <database>
+        <name>Animals</name>
+        <path>./db/Animals/main.xml</path>
+        <createdTime></createdTime>
+        <lastUpdateTime></lastUpdateTime>
+    </database>
+</root>
