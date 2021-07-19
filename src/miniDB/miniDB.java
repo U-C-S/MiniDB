@@ -19,6 +19,8 @@ public class miniDB {
 
 		new mainXmlParse(mainXml.getFile());
 		while (true) {
+			System.out.print("\n\u001B[31m>\u001B[0m ");
+			
 			String currentCmd = input.nextLine();
 
 			// break if user wants to exit
