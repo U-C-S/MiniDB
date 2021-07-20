@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <root>
-    <database>
-        <name>Animals</name>
-        <path>./db/Animals/main.xml</path>
-        <createdTime></createdTime>
-        <lastUpdateTime></lastUpdateTime>
+    <database disabled="true">
+        <name>empty</name>
+        <path>null</path>
+        <createdTime>null</createdTime>
+        <lastUpdateTime>null</lastUpdateTime>
     </database>
 </root>

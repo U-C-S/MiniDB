@@ -31,6 +31,8 @@ public class miniDB {
 			cli execute = new cli(currentCmd);
 
 		}
+
+		input.close();
 	}
 
 }
