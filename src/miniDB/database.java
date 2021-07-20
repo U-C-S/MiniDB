@@ -3,20 +3,17 @@ package miniDB;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
-// import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import java.io.File;
 import java.io.IOException;
-// import java.io.InputStream;
+import javax.xml.parsers.*;
 
-public class mainXmlParse {
+
+public class database {
 
     public void readXML() {
     }
 
-    public mainXmlParse(File path) {
+    public database(File path) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         try {

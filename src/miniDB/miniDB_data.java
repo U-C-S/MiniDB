@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
@@ -12,14 +11,14 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.*;
 
-public class createXmlFile {
+public class miniDB_data {
     private File xmlFile;
 
-    public createXmlFile(String path) {
+    public miniDB_data(String path) {
         xmlFile = new File(path);
     }
 
-    public void newInstance() {
+    public void load() {
         try {
             if (xmlFile.createNewFile()) {
                 System.out.println("File created: " + xmlFile.getName());
@@ -35,6 +34,10 @@ public class createXmlFile {
 
     public File getFile() {
         return xmlFile;
+    }
+
+    private void initalizeDbFile(){
+        
     }
 
     private void createEmptyDbEntry() {
