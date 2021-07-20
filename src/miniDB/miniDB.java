@@ -3,7 +3,6 @@ package miniDB;
 import java.util.Objects;
 import java.util.Scanner;
 
-
 /*
 TODO
 - Comment the code
@@ -11,7 +10,7 @@ TODO
 */
 
 public class miniDB {
-	static miniDB_data DataFile = new miniDB_data(constants.ROOT_PATH + "/minidb.xml");
+	static miniDB_data DataFile = new miniDB_data(constants.DATA_XML_PATH);
 
 	public static void main(String[] args) {
 		System.out.println(constants.HEADING);
@@ -41,13 +40,28 @@ public class miniDB {
 		String[] inputCmds = input.split(" ");
 
 		switch (inputCmds[0]) {
-			case "newdb": {
+			case "new": {
 				System.out.println(inputCmds[1]);
 				DataFile.createNewDatabase(inputCmds[1]);
 				break;
 			}
 			case "use": {
-				
+
+				break;
+			}
+
+			case "list": {
+
+				break;
+			}
+
+			case "info": {
+
+				break;
+			}
+
+			case "schema/update/delete/read": {
+
 				break;
 			}
 
@@ -59,3 +73,6 @@ public class miniDB {
 	}
 
 }
+
+
+// update where id=2 name=cow 

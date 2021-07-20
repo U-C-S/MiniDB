@@ -1,9 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <root>
+            
+    
     <database disabled="true">
+                        
+        
         <name>empty</name>
-        <path>null</path>
-        <createdTime>null</createdTime>
-        <lastUpdateTime>null</lastUpdateTime>
+                        
+        
+        <path>./db/empty.xml</path>
+                        
+        
+        <createdTime>2021-07-20T13:08:03.962605</createdTime>
+                        
+        
+        <lastUpdateTime>2021-07-20T13:08:03.962605</lastUpdateTime>
+                    
+    
+    </database>
+            
+    
+    <database disabled="false">
+                        
+        
+        <name>test</name>
+                        
+        
+        <path>./db/test.xml</path>
+                        
+        
+        <createdTime>2021-07-20T13:08:12.5463691</createdTime>
+                        
+        
+        <lastUpdateTime>2021-07-20T13:08:12.5463691</lastUpdateTime>
+                    
+    
+    </database>
+        
+    
+    <database disabled="false">
+                
+        <name>test2</name>
+                
+        <path>./db/test2.xml</path>
+                
+        <createdTime>2021-07-20T13:34:53.478353</createdTime>
+                
+        <lastUpdateTime>2021-07-20T13:34:53.478353</lastUpdateTime>
+            
+    </database>
+    
+    <database disabled="false">
+        <name>animals</name>
+        <path>./db/animals.xml</path>
+        <createdTime>2021-07-20T18:32:55.9820313</createdTime>
+        <lastUpdateTime>2021-07-20T18:32:55.9820313</lastUpdateTime>
     </database>
 </root>
