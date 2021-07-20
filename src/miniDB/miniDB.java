@@ -15,6 +15,7 @@ public class miniDB {
 			);
 
 		createXmlFile mainXml = new createXmlFile("./minidb.xml");
+		mainXml.newInstance();
 		Scanner input = new Scanner(System.in);
 
 		new mainXmlParse(mainXml.getFile());

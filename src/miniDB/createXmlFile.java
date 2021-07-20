@@ -2,6 +2,8 @@ package miniDB;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
@@ -13,15 +15,19 @@ import org.xml.sax.SAXException;
 
 public class createXmlFile {
     private File xmlFile;
+    private String DB_DIR = "./db/";
 
     public createXmlFile(String path) {
+        xmlFile = new File(path);
+    }
+
+    public void newInstance() {
         try {
-            xmlFile = new File(path);
             if (xmlFile.createNewFile()) {
                 System.out.println("File created: " + xmlFile.getName());
                 this.createEmptyDbEntry();
             } else {
-                System.out.println("minidb.xml Found!!");
+                System.out.println("A existing `minidb.xml` Found!!");
             }
         } catch (IOException e) {
             System.out.println("Congratulations! You created a ERROR;;");
@@ -59,17 +65,21 @@ public class createXmlFile {
         }
     }
 
-    public Element createDbEntry(Document doc, String name, String disabled) throws ParserConfigurationException {
+    private Element createDbEntry(Document doc, String name, String disabled) throws ParserConfigurationException {
         Element databaseElem = doc.createElement("database");
         Element nameElem = doc.createElement("name");
         Element pathElem = doc.createElement("path");
         Element createTime = doc.createElement("createdTime");
         Element updateTime = doc.createElement("lastUpdateTime");
 
+        DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        LocalDateTime now = LocalDateTime.now();
+        String timeNow = dtf.format(now);
+
         nameElem.appendChild(doc.createTextNode(name));
-        pathElem.appendChild(doc.createTextNode("null"));
-        createTime.appendChild(doc.createTextNode("null"));
-        updateTime.appendChild(doc.createTextNode("null"));
+        pathElem.appendChild(doc.createTextNode(DB_DIR + name + ".xml"));
+        createTime.appendChild(doc.createTextNode(timeNow));
+        updateTime.appendChild(doc.createTextNode(timeNow));
 
         databaseElem.appendChild(nameElem);
         databaseElem.appendChild(pathElem);
@@ -80,9 +90,23 @@ public class createXmlFile {
         return databaseElem;
     }
 
-    public void createNewDatabase(String name) throws ParserConfigurationException, SAXException, IOException {
-        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document db = docBuilder.parse(xmlFile);
+    public void createNewDatabase(String name) {
+        try {
+            DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document db = docBuilder.parse(xmlFile);
+
+            db.getDocumentElement().appendChild(createDbEntry(db, name, "false"));
+
+            Transformer tf = TransformerFactory.newInstance().newTransformer();
+            tf.setOutputProperty(OutputKeys.INDENT, "yes");
+            tf.setOutputProperty(OutputKeys.METHOD, "xml");
+            DOMSource domSource = new DOMSource(db);
+            StreamResult sr = new StreamResult(xmlFile);
+            tf.transform(domSource, sr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }
