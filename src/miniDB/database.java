@@ -13,7 +13,7 @@ public class database {
         this.xmlFile = new File(path);
     }
 
-    private void initalizeFile() {
+    public void initalizeFile() {
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -26,7 +26,7 @@ public class database {
     }
 
     public void readXML() {
-        
+
     }
 
     public database(File path) {

@@ -9,12 +9,14 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 /**
  * Contains the methods for performing CRUD operations on file 'minidb.xml'
  */
 public class miniDB_data {
     private File xmlFile;
+    private Document doc;
 
     public File getFile() {
         return xmlFile;
@@ -26,45 +28,38 @@ public class miniDB_data {
 
     public void load() {
         try {
-            if (xmlFile.createNewFile()) {
-                System.out.println("File created: " + xmlFile.getName());
-                this.initalizeFile();
-            } else {
-                System.out.println("A existing `minidb.xml` Found!!");
-            }
-        } catch (IOException e) {
-            System.out.println("Congratulations! You created a ERROR;;");
-            e.printStackTrace();
-        }
-    }
-
-    private void initalizeFile() {
-        try {
+            boolean FileNotExists = xmlFile.createNewFile();
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            Document doc = docBuilder.newDocument();
 
-            Element rootElem = doc.createElement("root");
-            Element emptyDb = this.addDbEntry(doc, "empty", "true");
+            if (FileNotExists) {
+                this.doc = docBuilder.newDocument();
+                System.out.println("Intialized: " + xmlFile.getPath());
+                Element rootElem = doc.createElement("root");
+                Element emptyDb = this.addDbEntry("empty", "true");
 
-            rootElem.appendChild(emptyDb);
-            doc.appendChild(rootElem);
+                rootElem.appendChild(emptyDb);
+                doc.appendChild(rootElem);
 
-            this.UpdateFile(doc);
+                this.UpdateFile();
 
-        } catch (ParserConfigurationException pce) {
-            pce.printStackTrace();
+            } else {
+                this.doc = docBuilder.parse(xmlFile);
+            }
+
+        } catch (ParserConfigurationException | SAXException | IOException err) {
+            err.printStackTrace();
         }
     }
 
-    private void UpdateFile(Document doc) {
+    private void UpdateFile() {
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             transformer.setOutputProperty(OutputKeys.INDENT, "no");
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 
-            DOMSource source = new DOMSource(doc);
+            DOMSource source = new DOMSource(this.doc);
             StreamResult result = new StreamResult(this.xmlFile);
             transformer.transform(source, result);
 
@@ -73,7 +68,16 @@ public class miniDB_data {
         }
     }
 
-    private Element addDbEntry(Document doc, String name, String disabled) throws ParserConfigurationException {
+    /**
+     * 
+     * @param name     - Name of the database
+     * @param disabled - Always false for user created databases
+     * @return The XML Element which can be appended into the doc
+     * @throws ParserConfigurationException
+     */
+    private Element addDbEntry(String name, String disabled) throws ParserConfigurationException {
+        Document doc = this.doc;
+
         Element databaseElem = doc.createElement("database");
         Element nameElem = doc.createElement("name");
         Element pathElem = doc.createElement("path");
@@ -108,14 +112,31 @@ public class miniDB_data {
      */
     public void createNewDatabase(String name) {
         try {
-            DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = docBuilder.parse(xmlFile);
-
-            doc.getDocumentElement().appendChild(addDbEntry(doc, name, "false"));
-            this.UpdateFile(doc);
+            Element dbEntry = addDbEntry(name, "false");
+            this.doc.getDocumentElement().appendChild(dbEntry);
+            this.UpdateFile();
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void printt(String x) {
+        System.out.println(x);
+    }
+
+    //TODO
+    public void listAllDatabases() {
+        try {
+            NodeList list = this.doc.getElementsByTagName("database");
+            for (int i = 0; i < list.getLength(); i++) {
+                Node dbx = list.item(i);
+                //System.out.println(dbx.getNodeName());
+                String name = dbx.getFirstChild().getNodeValue();
+                System.out.println(name);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 

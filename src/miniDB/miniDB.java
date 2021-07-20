@@ -41,8 +41,8 @@ public class miniDB {
 
 		switch (inputCmds[0]) {
 			case "new": {
-				System.out.println(inputCmds[1]);
 				DataFile.createNewDatabase(inputCmds[1]);
+				System.out.println("Successfully created Database named: " + inputCmds[1]);
 				break;
 			}
 			case "use": {
@@ -51,7 +51,7 @@ public class miniDB {
 			}
 
 			case "list": {
-
+				DataFile.listAllDatabases();
 				break;
 			}
 
@@ -74,5 +74,4 @@ public class miniDB {
 
 }
 
-
-// update where id=2 name=cow 
+// update where id=2 name=cow
