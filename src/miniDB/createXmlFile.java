@@ -11,11 +11,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.*;
-import org.xml.sax.SAXException;
 
 public class createXmlFile {
     private File xmlFile;
-    private String DB_DIR = "./db/";
 
     public createXmlFile(String path) {
         xmlFile = new File(path);
@@ -72,12 +70,14 @@ public class createXmlFile {
         Element createTime = doc.createElement("createdTime");
         Element updateTime = doc.createElement("lastUpdateTime");
 
-        DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME; // Superior ISO8601 Format
         LocalDateTime now = LocalDateTime.now();
         String timeNow = dtf.format(now);
 
+        String dbPath = constants.DB_DIR_PATH + name + ".xml";
+
         nameElem.appendChild(doc.createTextNode(name));
-        pathElem.appendChild(doc.createTextNode(DB_DIR + name + ".xml"));
+        pathElem.appendChild(doc.createTextNode(dbPath));
         createTime.appendChild(doc.createTextNode(timeNow));
         updateTime.appendChild(doc.createTextNode(timeNow));
 
@@ -90,6 +90,12 @@ public class createXmlFile {
         return databaseElem;
     }
 
+    /**
+     * Method for creating a new database. Which means both creating a entry in the
+     * minidb.xml and A new database-xml file.
+     * 
+     * @param name - The name of the database
+     */
     public void createNewDatabase(String name) {
         try {
             DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -100,6 +106,7 @@ public class createXmlFile {
             Transformer tf = TransformerFactory.newInstance().newTransformer();
             tf.setOutputProperty(OutputKeys.INDENT, "yes");
             tf.setOutputProperty(OutputKeys.METHOD, "xml");
+
             DOMSource domSource = new DOMSource(db);
             StreamResult sr = new StreamResult(xmlFile);
             tf.transform(domSource, sr);
