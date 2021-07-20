@@ -10,8 +10,15 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
 
+/**
+ * Contains the methods for performing CRUD operations on file 'minidb.xml'
+ */
 public class miniDB_data {
     private File xmlFile;
+
+    public File getFile() {
+        return xmlFile;
+    }
 
     public miniDB_data(String path) {
         xmlFile = new File(path);
@@ -21,7 +28,7 @@ public class miniDB_data {
         try {
             if (xmlFile.createNewFile()) {
                 System.out.println("File created: " + xmlFile.getName());
-                this.createEmptyDbEntry();
+                this.initalizeFile();
             } else {
                 System.out.println("A existing `minidb.xml` Found!!");
             }
@@ -31,42 +38,42 @@ public class miniDB_data {
         }
     }
 
-    public File getFile() {
-        return xmlFile;
-    }
-
-    //TODO
-    private void initalizeFile(){
-        
-    }
-
-    private void createEmptyDbEntry() {
+    private void initalizeFile() {
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document doc = docBuilder.newDocument();
 
             Element rootElem = doc.createElement("root");
-            Element emptyDb = this.createDbEntry(doc, "empty", "true");
+            Element emptyDb = this.addDbEntry(doc, "empty", "true");
 
             rootElem.appendChild(emptyDb);
             doc.appendChild(rootElem);
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(this.xmlFile);
-            transformer.transform(source, result);
-            // System.out.println("File saved!");
+            this.UpdateFile(doc);
 
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
+        }
+    }
+
+    private void UpdateFile(Document doc) {
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.setOutputProperty(OutputKeys.INDENT, "no");
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(this.xmlFile);
+            transformer.transform(source, result);
+
         } catch (TransformerException tfe) {
             tfe.printStackTrace();
         }
     }
 
-    private Element createDbEntry(Document doc, String name, String disabled) throws ParserConfigurationException {
+    private Element addDbEntry(Document doc, String name, String disabled) throws ParserConfigurationException {
         Element databaseElem = doc.createElement("database");
         Element nameElem = doc.createElement("name");
         Element pathElem = doc.createElement("path");
@@ -102,21 +109,17 @@ public class miniDB_data {
     public void createNewDatabase(String name) {
         try {
             DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document db = docBuilder.parse(xmlFile);
+            Document doc = docBuilder.parse(xmlFile);
 
-            db.getDocumentElement().appendChild(createDbEntry(db, name, "false"));
-
-            Transformer tf = TransformerFactory.newInstance().newTransformer();
-            tf.setOutputProperty(OutputKeys.INDENT, "yes");
-            tf.setOutputProperty(OutputKeys.METHOD, "xml");
-
-            DOMSource domSource = new DOMSource(db);
-            StreamResult sr = new StreamResult(xmlFile);
-            tf.transform(domSource, sr);
+            doc.getDocumentElement().appendChild(addDbEntry(doc, name, "false"));
+            this.UpdateFile(doc);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void deleteDatabase(String name) {
 
     }
 }
