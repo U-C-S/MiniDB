@@ -1,6 +1,8 @@
 import java.util.Objects;
 import java.util.Scanner;
 
+import org.w3c.dom.Document;
+
 import constants.constants;
 import minidb.xmlParser.DatabaseFile;
 import minidb.xmlParser.RegistryFile;
@@ -12,11 +14,13 @@ TODO
 
 public class cli {
     static RegistryFile registry = new RegistryFile(constants.DATA_XML_PATH);
+    static Document CurrentDb;
 
     public static void main(String[] args) {
         System.out.println(constants.HEADING);
 
         registry.load();
+
         // new DatabaseFile(registry.getFile());
 
         Scanner input = new Scanner(System.in);
@@ -47,7 +51,14 @@ public class cli {
                 break;
             }
             case "use": {
-
+                String path = registry.getDatabasePath(inputCmds[1], false);
+                if (path != null) {
+                    DatabaseFile db = new DatabaseFile(path);
+                    CurrentDb = db.getDocument();
+                    System.out.println("Successfully loaded Database named: " + inputCmds[1]);
+                } else {
+                    System.out.println("Database not found");
+                }
                 break;
             }
 
