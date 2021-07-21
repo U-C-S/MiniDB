@@ -1,12 +1,12 @@
-package miniDB;
+package minidb.xmlParser;
 
 import java.io.File;
 
-public class xml {
-    private File xmlFile;
+public class XMLFiles {
+    private File xmlFilex;
 
     public File getFile() {
-        return xmlFile;
+        return xmlFilex;
     }
 
     private void initalizeFile() {

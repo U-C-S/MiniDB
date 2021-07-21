@@ -1,9 +1,10 @@
-package miniDB;
+package minidb.xmlParser;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
@@ -11,18 +12,17 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+import constants.constants;
+
 /**
- * Contains the methods for performing CRUD operations on file 'minidb.xml'
+ * Contains the methods for performing CRUD operations on the registry file
+ * 'minidb.xml'
  */
-public class miniDB_data {
+public class RegistryFile {
     private File xmlFile;
     private Document doc;
 
-    public File getFile() {
-        return xmlFile;
-    }
-
-    public miniDB_data(String path) {
+    public RegistryFile(String path) {
         xmlFile = new File(path);
     }
 
@@ -34,7 +34,6 @@ public class miniDB_data {
 
             if (FileNotExists) {
                 this.doc = docBuilder.newDocument();
-                System.out.println("Intialized: " + xmlFile.getPath());
                 Element rootElem = doc.createElement("root");
                 Element emptyDb = this.addDbEntry("empty", "true");
 
@@ -42,6 +41,8 @@ public class miniDB_data {
                 doc.appendChild(rootElem);
 
                 this.UpdateFile();
+                DatabaseFile db = new DatabaseFile(this.getDatabasePath("empty", true));
+                System.out.println("Intialized: " + xmlFile.getPath());
 
             } else {
                 this.doc = docBuilder.parse(xmlFile);
@@ -63,8 +64,8 @@ public class miniDB_data {
             StreamResult result = new StreamResult(this.xmlFile);
             transformer.transform(source, result);
 
-        } catch (TransformerException tfe) {
-            tfe.printStackTrace();
+        } catch (TransformerException err) {
+            err.printStackTrace();
         }
     }
 
@@ -88,10 +89,8 @@ public class miniDB_data {
         LocalDateTime now = LocalDateTime.now();
         String timeNow = dtf.format(now);
 
-        String dbPath = constants.DB_DIR_PATH + name + ".xml";
-
         nameElem.appendChild(doc.createTextNode(name));
-        pathElem.appendChild(doc.createTextNode(dbPath));
+        pathElem.appendChild(doc.createTextNode(this.getDatabasePath(name, true)));
         createTime.appendChild(doc.createTextNode(timeNow));
         updateTime.appendChild(doc.createTextNode(timeNow));
 
@@ -112,9 +111,12 @@ public class miniDB_data {
      */
     public void createNewDatabase(String name) {
         try {
-            Element dbEntry = addDbEntry(name, "false");
-            this.doc.getDocumentElement().appendChild(dbEntry);
-            this.UpdateFile();
+            if (!this.isDatabaseExists(name)) {
+                Element dbEntry = addDbEntry(name, "false");
+                this.doc.getDocumentElement().appendChild(dbEntry);
+                this.UpdateFile();
+                DatabaseFile db = new DatabaseFile(this.getDatabasePath(name, true));
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,18 +127,62 @@ public class miniDB_data {
         System.out.println(x);
     }
 
-    //TODO
+    /**
+     * To list all the created databases in the register
+     */
     public void listAllDatabases() {
-        try {
-            NodeList list = this.doc.getElementsByTagName("database");
-            for (int i = 0; i < list.getLength(); i++) {
-                Node dbx = list.item(i);
-                //System.out.println(dbx.getNodeName());
-                String name = dbx.getFirstChild().getNodeValue();
-                System.out.println(name);
+        NodeList list = this.doc.getElementsByTagName("database");
+
+        for (int i = 0; i < list.getLength(); i++) {
+            Node dbNode = list.item(i);
+            NodeList childList = dbNode.getChildNodes();
+            String name = childList.item(0).getTextContent();
+            System.out.println(name);
+        }
+    }
+
+    /**
+     * Checks if the database name already exists in the register
+     * 
+     * @param name - The name of the database
+     * @return The index of the database in the register, if not found returns -1
+     */
+    public int checkDatabase(String name) {
+        int x = -1;
+        NodeList list = this.doc.getElementsByTagName("name");
+        for (int i = 0; i < list.getLength(); i++) {
+            Node dbNode = list.item(i);
+            String dbName = dbNode.getTextContent();
+            // System.out.println(dbName + " " + name);
+            if (Objects.equals(dbName, name)) {
+                x = i;
             }
-        } catch (Exception e) {
-            System.out.println(e);
+        }
+
+        return x;
+    }
+
+    private boolean isDatabaseExists(String name) {
+        if (checkDatabase(name) != -1) {
+            return true;
+        } else
+            return false;
+    }
+
+    /**
+     * @param name   - Name of the Database
+     * @param create - True only if you are creating a new database
+     * @return The path of the database
+     */
+    public String getDatabasePath(String name, boolean create) {
+        if (create) {
+            return constants.DB_DIR_PATH + name + ".xml";
+        } else {
+            if (isDatabaseExists(name)) {
+                return constants.DB_DIR_PATH + name + ".xml";
+            } else {
+                return null;
+            }
         }
     }
 
