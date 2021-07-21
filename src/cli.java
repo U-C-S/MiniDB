@@ -13,15 +13,12 @@ TODO
 */
 
 public class cli {
-    static RegistryFile registry = new RegistryFile(constants.DATA_XML_PATH);
+    static RegistryFile registry;
     static Document CurrentDb;
 
     public static void main(String[] args) {
         System.out.println(constants.HEADING);
-
-        registry.load();
-
-        // new DatabaseFile(registry.getFile());
+        registry = new RegistryFile(constants.DATA_XML_PATH);
 
         Scanner input = new Scanner(System.in);
         while (true) {

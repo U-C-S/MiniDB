@@ -1,16 +1,10 @@
 package minidb.xmlParser;
 
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
-import org.xml.sax.SAXException;
 
 import constants.constants;
 
@@ -18,55 +12,24 @@ import constants.constants;
  * Contains the methods for performing CRUD operations on the registry file
  * 'minidb.xml'
  */
-public class RegistryFile {
-    private File xmlFile;
-    private Document doc;
+public class RegistryFile extends XMLFiles {
 
     public RegistryFile(String path) {
-        xmlFile = new File(path);
+        super(path);
     }
 
-    public void load() {
-        try {
-            boolean FileNotExists = xmlFile.createNewFile();
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+    @Override
+    protected void createFile() {
+        Element rootElem = doc.createElement("root");
+        Element emptyDb = this.addDbEntry("empty", "true");
 
-            if (FileNotExists) {
-                this.doc = docBuilder.newDocument();
-                Element rootElem = doc.createElement("root");
-                Element emptyDb = this.addDbEntry("empty", "true");
+        rootElem.appendChild(emptyDb);
+        doc.appendChild(rootElem);
 
-                rootElem.appendChild(emptyDb);
-                doc.appendChild(rootElem);
+        new DatabaseFile(this.getDatabasePath("empty", true));
+        this.updateFile();
 
-                this.UpdateFile();
-                new DatabaseFile(this.getDatabasePath("empty", true));
-                System.out.println("Intialized: " + xmlFile.getPath());
-
-            } else {
-                this.doc = docBuilder.parse(xmlFile);
-            }
-
-        } catch (ParserConfigurationException | SAXException | IOException err) {
-            err.printStackTrace();
-        }
-    }
-
-    private void UpdateFile() {
-        try {
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            transformer.setOutputProperty(OutputKeys.INDENT, "no");
-            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-
-            DOMSource source = new DOMSource(this.doc);
-            StreamResult result = new StreamResult(this.xmlFile);
-            transformer.transform(source, result);
-
-        } catch (TransformerException err) {
-            err.printStackTrace();
-        }
+        System.out.println("Intialized: " + xmlFile.getPath());
     }
 
     /**
@@ -76,7 +39,7 @@ public class RegistryFile {
      * @return The XML Element which can be appended into the doc
      * @throws ParserConfigurationException
      */
-    private Element addDbEntry(String name, String disabled) throws ParserConfigurationException {
+    private Element addDbEntry(String name, String disabled) {
         Document doc = this.doc;
 
         Element databaseElem = doc.createElement("database");
@@ -114,9 +77,11 @@ public class RegistryFile {
             if (!this.isDatabaseExists(name)) {
                 Element dbEntry = addDbEntry(name, "false");
                 this.doc.getDocumentElement().appendChild(dbEntry);
-                this.UpdateFile();
+                this.updateFile();
 
                 new DatabaseFile(this.getDatabasePath(name, true));
+            } else {
+                System.out.println("Database already exists");
             }
 
         } catch (Exception e) {
@@ -177,10 +142,10 @@ public class RegistryFile {
      */
     public String getDatabasePath(String name, boolean create) {
         if (create) {
-            return constants.DB_DIR_PATH + name + ".xml";
+            return constants.DB_DIR_PATH + "\\" + name + ".xml";
         } else {
             if (isDatabaseExists(name)) {
-                return constants.DB_DIR_PATH + name + ".xml";
+                return constants.DB_DIR_PATH + "\\" + name + ".xml";
             } else {
                 return null;
             }

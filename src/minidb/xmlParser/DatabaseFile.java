@@ -1,64 +1,22 @@
 package minidb.xmlParser;
 
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
-public class DatabaseFile {
-    private File xmlFile;
-    private Document doc;
-
-    // public DatabaseFile(String path) {
-    // this.xmlFile = new File(path);
-    // }
+public class DatabaseFile extends XMLFiles {
 
     public DatabaseFile(String path) {
-        try {
-            xmlFile = new File(path);
-            if (xmlFile.createNewFile()) {
-                initalize();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        super(path);
     }
 
-    public void initalize() {
-        try {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            doc = docBuilder.newDocument();
+    @Override
+    protected void createFile() {
+        Element rootElem = doc.createElement("root");
+        doc.appendChild(rootElem);
 
-            Element rootElem = doc.createElement("root");
-            doc.appendChild(rootElem);
-
-            this.UpdateFile();
-
-        } catch (Exception e) {
-            System.out.println(e);
-            e.printStackTrace();
-        }
-    }
-
-    private void UpdateFile() {
-        try {
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            transformer.setOutputProperty(OutputKeys.INDENT, "no");
-            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-
-            DOMSource source = new DOMSource(this.doc);
-            StreamResult result = new StreamResult(this.xmlFile);
-            transformer.transform(source, result);
-
-        } catch (TransformerException err) {
-            err.printStackTrace();
-        }
+        this.updateFile();
     }
 
     public void blah() {
