@@ -41,7 +41,7 @@ public class RegistryFile {
                 doc.appendChild(rootElem);
 
                 this.UpdateFile();
-                DatabaseFile db = new DatabaseFile(this.getDatabasePath("empty", true));
+                new DatabaseFile(this.getDatabasePath("empty", true));
                 System.out.println("Intialized: " + xmlFile.getPath());
 
             } else {
@@ -115,7 +115,8 @@ public class RegistryFile {
                 Element dbEntry = addDbEntry(name, "false");
                 this.doc.getDocumentElement().appendChild(dbEntry);
                 this.UpdateFile();
-                DatabaseFile db = new DatabaseFile(this.getDatabasePath(name, true));
+
+                new DatabaseFile(this.getDatabasePath(name, true));
             }
 
         } catch (Exception e) {
@@ -123,9 +124,9 @@ public class RegistryFile {
         }
     }
 
-    private void printt(String x) {
-        System.out.println(x);
-    }
+    // private void printt(String x) {
+    // System.out.println(x);
+    // }
 
     /**
      * To list all the created databases in the register

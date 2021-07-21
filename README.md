@@ -1,6 +1,6 @@
 # MiniDB
 
-MiniDB is a type of [key-value](https://en.wikipedia.org/wiki/Key%E2%80%93value_database) like [XML Document Database](https://en.wikipedia.org/wiki/XML_database). 
+MiniDB is a type of [key-value](https://en.wikipedia.org/wiki/Key%E2%80%93value_database) like [XML Document Database](https://en.wikipedia.org/wiki/XML_database).
 
 This is just a simple implementation, more-like a prototype and My first time doing it. So, The database design might not be as good and nor feature rich.
 
@@ -16,5 +16,6 @@ This is my college Project Submission for the following course
 
 Use the following commands to perform [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations on this NoSQL Database.
 
-- `new {name}` For creating a new database. (`{}` denotes that name is a variable)
 - `list` to list all the created databases
+- `new {name}` For creating a new database. (`{}` denotes that name is a variable)
+- `use {name}` to select the database from the existing ones for CRUD operations

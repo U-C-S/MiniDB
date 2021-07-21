@@ -1,4 +1,6 @@
 bin
 db
+dump
 *.jar
 *.class
+minidb.xml
