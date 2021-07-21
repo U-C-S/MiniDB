@@ -30,8 +30,12 @@ public class cli {
             if (Objects.equals(currentCmd, "exit;")) {
                 break;
             }
-
+            long startTime = System.nanoTime();
             cliInputs(currentCmd);
+            long endTime = System.nanoTime();
+
+            long exeTime = (endTime - startTime) / 1000000;
+            System.out.println("\nExecution Time: " + exeTime + "ms");
 
         }
 
@@ -74,7 +78,7 @@ public class cli {
             case "schema": {
                 String xy = inputCmds[1];
                 if (xy.equals("show")) {
-
+                    System.out.println(CurrentDb.showSchema());
                 } else if (xy.equals("update")) {
 
                 } else {
@@ -98,7 +102,17 @@ public class cli {
                 break;
             }
 
-            case "update/delete/read/add": {
+            case "read": {
+                CurrentDb.readData();
+                break;
+            }
+
+            case "drop": {
+
+                break;
+            }
+
+            case "update/delete": {
 
                 break;
             }

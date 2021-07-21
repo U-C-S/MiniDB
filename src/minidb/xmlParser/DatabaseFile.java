@@ -50,6 +50,10 @@ public class DatabaseFile extends XMLFiles {
         }
     }
 
+    public String showSchema() {
+        return schemaElem.getAttribute("val");
+    }
+
     public void createSchema(String value) {
         schemaElem.setAttribute("val", value);
         this.updateFile();
@@ -58,18 +62,46 @@ public class DatabaseFile extends XMLFiles {
     public void addData(String value) {
         String[] vals = value.split(",");
         String[] schemaArray = schemaElem.getAttribute("val").split(",");
-        Element store = doc.createElement("store");
 
-        for (int i = 0; i < schemaArray.length; i++) {
-            String v = vals[i];
-            String s = schemaArray[i];
-            Element x = doc.createElement(s);
-            x.appendChild(doc.createTextNode(v));
-            store.appendChild(x);
+        if (vals.length == schemaArray.length) {
+            Element store = doc.createElement("store");
+            store.setAttribute(schemaArray[0], vals[0]);
+
+            for (int i = 1; i < schemaArray.length; i++) {
+                String v = vals[i];
+                String s = schemaArray[i];
+                Element x = doc.createElement(s);
+                x.appendChild(doc.createTextNode(v));
+                store.appendChild(x);
+            }
+            dataElem.appendChild(store);
+
+            this.updateFile();
+        } else {
+            print("The data does not follow the declared schema: " + this.showSchema());
         }
-        dataElem.appendChild(store);
 
-        this.updateFile();
+    }
+
+    public void readData() {
+        String ss = "";
+        String[] schemaArray = schemaElem.getAttribute("val").split(",");
+        for (String string : schemaArray) {
+            ss += string + " ";
+        }
+        print(ss);
+
+        NodeList dataList = doc.getElementsByTagName("store");
+        for (int i = 0; i < dataList.getLength(); i++) {
+            String s = "";
+            Node x = dataList.item(i);
+            NodeList y = x.getChildNodes();
+            for (int j = 0; j < y.getLength(); j++) {
+                Node z = y.item(j);
+                s += z.getTextContent().trim() + " ";
+            }
+            print(s);
+        }
 
     }
 }

@@ -21,3 +21,24 @@ Use the following commands to perform [CRUD](https://en.wikipedia.org/wiki/Creat
 - `use {name}` to select the database from the existing ones for CRUD operations
 - `schema {}` for declaring schema of the database. (NOTE: schema must be declared first to add any data)
 - `add {}` for adding data to the database. the data seperated with `,` must follow the schema.
+- `read` to read and show the data into the console.
+
+### Example usage
+
+After starting the CLI, you should see the following:
+
+```
+--------------- Welcome to MiniDB ---------------
+--------- Made by Chanakya. MIT License ---------
+Enter the Commands: (Use 'exit;' to exit the cli)
+```
+
+The following commands creates a database named `animal`. We declare a schema first since it's important to have a format of data to store in database. Then, we add data that must satisfy the schema format.
+
+```
+new animal
+schema id,name,legs
+add 1,cat,4
+add 2,fish,0
+```
+Note: The first element is taken as the id, which is used as a pointer to data. So, it's a good practice to name it as `id` itself.
