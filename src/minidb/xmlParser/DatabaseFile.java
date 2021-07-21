@@ -13,7 +13,7 @@ public class DatabaseFile {
     //     this.xmlFile = new File(path);
     // }
 
-    public void initalizeFile() {
+    public void initalize() {
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();

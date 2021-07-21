@@ -11,13 +11,13 @@ TODO
 */
 
 public class cli {
-    static RegistryFile DataFile = new RegistryFile(constants.DATA_XML_PATH);
+    static RegistryFile registry = new RegistryFile(constants.DATA_XML_PATH);
 
     public static void main(String[] args) {
         System.out.println(constants.HEADING);
 
-        DataFile.load();
-        new DatabaseFile(DataFile.getFile());
+        registry.load();
+        // new DatabaseFile(registry.getFile());
 
         Scanner input = new Scanner(System.in);
         while (true) {
@@ -42,7 +42,7 @@ public class cli {
 
         switch (inputCmds[0]) {
             case "new": {
-                DataFile.createNewDatabase(inputCmds[1]);
+                registry.createNewDatabase(inputCmds[1]);
                 System.out.println("Successfully created Database named: " + inputCmds[1]);
                 break;
             }
@@ -52,8 +52,11 @@ public class cli {
             }
 
             case "list": {
-                DataFile.listAllDatabases();
+                registry.listAllDatabases();
                 break;
+                // in future, use
+                // - list databases - to list all the databases
+                // - list elements - to list all the data entered into the database
             }
 
             case "info": {
@@ -61,13 +64,13 @@ public class cli {
                 break;
             }
 
-            case "schema/update/delete/read": {
+            case "schema/update/delete/read/add": {
 
                 break;
             }
 
             default: {
-                System.out.println("UNKNOWN COMMAND: " + inputCmds[0]);
+                System.out.println("UNKNOWN COMMAND: " + inputCmds[0] + "\nType `info commands` for commands list");
                 break;
             }
         }

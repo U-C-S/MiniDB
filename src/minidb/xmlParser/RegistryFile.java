@@ -37,7 +37,6 @@ public class RegistryFile {
 
             if (FileNotExists) {
                 this.doc = docBuilder.newDocument();
-                System.out.println("Intialized: " + xmlFile.getPath());
                 Element rootElem = doc.createElement("root");
                 Element emptyDb = this.addDbEntry("empty", "true");
 
@@ -45,6 +44,7 @@ public class RegistryFile {
                 doc.appendChild(rootElem);
 
                 this.UpdateFile();
+                System.out.println("Intialized: " + xmlFile.getPath());
 
             } else {
                 this.doc = docBuilder.parse(xmlFile);
@@ -66,8 +66,8 @@ public class RegistryFile {
             StreamResult result = new StreamResult(this.xmlFile);
             transformer.transform(source, result);
 
-        } catch (TransformerException tfe) {
-            tfe.printStackTrace();
+        } catch (TransformerException err) {
+            err.printStackTrace();
         }
     }
 
@@ -128,14 +128,16 @@ public class RegistryFile {
         System.out.println(x);
     }
 
-    // TODO
+    /**
+     * To list all the created databases in the register
+     */
     public void listAllDatabases() {
         try {
             NodeList list = this.doc.getElementsByTagName("database");
             for (int i = 0; i < list.getLength(); i++) {
                 Node dbx = list.item(i);
-                // System.out.println(dbx.getNodeName());
-                String name = dbx.getFirstChild().getNodeValue();
+                NodeList listx = dbx.getChildNodes();
+                String name = listx.item(1).getTextContent();
                 System.out.println(name);
             }
         } catch (Exception e) {

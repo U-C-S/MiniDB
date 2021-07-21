@@ -18,4 +18,10 @@
         <createdTime>2021-07-20T20:07:30.584126</createdTime>
         <lastUpdateTime>2021-07-20T20:07:30.584126</lastUpdateTime>
     </database>
+    <database disabled="false">
+        <name>xtreme</name>
+        <path>./db/xtreme.xml</path>
+        <createdTime>2021-07-21T08:02:19.3332056</createdTime>
+        <lastUpdateTime>2021-07-21T08:02:19.3332056</lastUpdateTime>
+    </database>
 </root>
