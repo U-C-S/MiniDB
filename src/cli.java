@@ -14,7 +14,7 @@ TODO
 
 public class cli {
     static RegistryFile registry;
-    static Document CurrentDb;
+    static DatabaseFile CurrentDb;
 
     public static void main(String[] args) {
         System.out.println(constants.HEADING);
@@ -44,14 +44,13 @@ public class cli {
         switch (inputCmds[0]) {
             case "new": {
                 registry.createNewDatabase(inputCmds[1]);
-                System.out.println("Successfully created Database named: " + inputCmds[1]);
                 break;
             }
             case "use": {
                 String path = registry.getDatabasePath(inputCmds[1], false);
                 if (path != null) {
-                    DatabaseFile db = new DatabaseFile(path);
-                    CurrentDb = db.getDocument();
+                    CurrentDb = new DatabaseFile(path);
+                    CurrentDb.EditMode();
                     System.out.println("Successfully loaded Database named: " + inputCmds[1]);
                 } else {
                     System.out.println("Database not found");
@@ -72,7 +71,34 @@ public class cli {
                 break;
             }
 
-            case "schema/update/delete/read/add": {
+            case "schema": {
+                String xy = inputCmds[1];
+                if (xy.equals("show")) {
+
+                } else if (xy.equals("update")) {
+
+                } else {
+                    String[] schemaVals = xy.split(",");
+                    if (schemaVals.length > 1) {
+                        CurrentDb.createSchema(xy);
+                    } else {
+                        System.out.println("There should be atleast 2 columns of data");
+                    }
+                }
+                break;
+            }
+
+            case "add": {
+                if (CurrentDb != null) {
+                    CurrentDb.addData(inputCmds[1]);
+                } else {
+                    System.out.println("Select a database with `use` command");
+                }
+
+                break;
+            }
+
+            case "update/delete/read/add": {
 
                 break;
             }
@@ -86,4 +112,15 @@ public class cli {
 
 }
 
-// update where id=2 name=cow
+// read
+// read id=8..99
+
+// update name='cow' where id=2
+
+// add 04,cow,25
+
+// delete id=5..7
+
+// schema id, name, age
+// schema update id, name,age
+// schema show

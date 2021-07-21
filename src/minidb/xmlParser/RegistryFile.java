@@ -80,6 +80,7 @@ public class RegistryFile extends XMLFiles {
                 this.updateFile();
 
                 new DatabaseFile(this.getDatabasePath(name, true));
+                System.out.println("Successfully created Database named: " + name);
             } else {
                 System.out.println("Database already exists");
             }
@@ -89,21 +90,16 @@ public class RegistryFile extends XMLFiles {
         }
     }
 
-    // private void printt(String x) {
-    // System.out.println(x);
-    // }
-
     /**
      * To list all the created databases in the register
      */
     public void listAllDatabases() {
-        NodeList list = this.doc.getElementsByTagName("database");
+        NodeList list = this.doc.getElementsByTagName("name");
 
         for (int i = 0; i < list.getLength(); i++) {
             Node dbNode = list.item(i);
-            NodeList childList = dbNode.getChildNodes();
-            String name = childList.item(0).getTextContent();
-            System.out.println(name);
+            String name = dbNode.getTextContent();
+            System.out.println(i + ". " + name);
         }
     }
 

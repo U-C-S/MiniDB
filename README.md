@@ -19,3 +19,5 @@ Use the following commands to perform [CRUD](https://en.wikipedia.org/wiki/Creat
 - `list` to list all the created databases
 - `new {name}` For creating a new database. (`{}` denotes that name is a variable)
 - `use {name}` to select the database from the existing ones for CRUD operations
+- `schema {}` for declaring schema of the database. (NOTE: schema must be declared first to add any data)
+- `add {}` for adding data to the database. the data seperated with `,` must follow the schema.

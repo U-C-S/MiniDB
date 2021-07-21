@@ -55,9 +55,14 @@ public class XMLFiles {
             DOMSource source = new DOMSource(this.doc);
             StreamResult result = new StreamResult(this.xmlFile);
             transformer.transform(source, result);
+            print("Updated;");
 
         } catch (TransformerException err) {
             err.printStackTrace();
         }
+    }
+
+    protected void print(String x) {
+        System.out.println(x);
     }
 }
