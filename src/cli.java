@@ -8,8 +8,9 @@ import minidb.xmlParser.DatabaseFile;
 import minidb.xmlParser.RegistryFile;
 
 /*
-TODO
+To do
 - Comment the code
+- Table Layout for the data.
 */
 
 public class cli {
@@ -65,29 +66,31 @@ public class cli {
             case "list": {
                 registry.listAllDatabases();
                 break;
-                // in future, use
-                // - list databases - to list all the databases
-                // - list elements - to list all the data entered into the database
             }
 
             case "info": {
-
+                // For querying the meta info of the database
                 break;
             }
 
             case "schema": {
-                String xy = inputCmds[1];
-                if (xy.equals("show")) {
-                    System.out.println(CurrentDb.showSchema());
-                } else if (xy.equals("update")) {
+                if (CurrentDb != null) {
+                    String xy = inputCmds[1];
 
-                } else {
-                    String[] schemaVals = xy.split(",");
-                    if (schemaVals.length > 1) {
-                        CurrentDb.createSchema(xy);
+                    if (xy.equals("show")) {
+                        System.out.println(CurrentDb.getSchema());
+                    } else if (xy.equals("update")) {
+
                     } else {
-                        System.out.println("There should be atleast 2 columns of data");
+                        String[] schemaVals = xy.split(",");
+                        if (schemaVals.length > 1) {
+                            CurrentDb.createSchema(xy);
+                        } else {
+                            System.out.println("There should be atleast 2 columns of data");
+                        }
                     }
+                } else {
+                    System.out.println("You need to select a database first with `use` command");
                 }
                 break;
             }
@@ -96,14 +99,16 @@ public class cli {
                 if (CurrentDb != null) {
                     CurrentDb.addData(inputCmds[1]);
                 } else {
-                    System.out.println("Select a database with `use` command");
+                    System.out.println("You need to select a database first with `use` command");
                 }
 
                 break;
             }
 
             case "read": {
-                CurrentDb.readData();
+                if (CurrentDb != null) {
+                    CurrentDb.readData();
+                }
                 break;
             }
 
@@ -126,15 +131,19 @@ public class cli {
 
 }
 
-// read
+// Commands that are available
+// ✅ read
 // read id=8..99
 
 // update name='cow' where id=2
 
-// add 04,cow,25
+// ✅ add 04,cow,25
 
 // delete id=5..7
 
-// schema id, name, age
+// ✅ schema id, name, age
 // schema update id, name,age
-// schema show
+// ✅ schema show
+
+// Future
+// - import/export databases cmds

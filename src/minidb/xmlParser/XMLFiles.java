@@ -33,11 +33,10 @@ public class XMLFiles {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         if (NoFile) {
-
             doc = docBuilder.newDocument();
             createFile();
         } else {
-            doc = docBuilder.parse(xmlFile);
+            doc = docBuilder.parse(xmlFile);;
         }
     }
 
@@ -45,6 +44,9 @@ public class XMLFiles {
         this.updateFile();
     }
 
+    /**
+     * Call this method to update the XML file.
+     */
     protected void updateFile() {
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
