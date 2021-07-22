@@ -1,5 +1,6 @@
 package minidb.xmlParser;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -112,6 +113,7 @@ public class RegistryFile extends XMLFiles {
     public int checkDatabase(String name) {
         int x = -1;
         NodeList list = this.doc.getElementsByTagName("name");
+
         for (int i = 0; i < list.getLength(); i++) {
             Node dbNode = list.item(i);
             String dbName = dbNode.getTextContent();
@@ -149,6 +151,22 @@ public class RegistryFile extends XMLFiles {
     }
 
     public void deleteDatabase(String name) {
+        int dbid = checkDatabase(name);
 
+        if (dbid != -1) {
+            String dbPath = getDatabasePath(name, false);
+
+            NodeList list = this.doc.getElementsByTagName("database");
+            Element dbEntry = (Element) list.item(dbid);
+            dbEntry.getParentNode().removeChild(dbEntry);
+            this.updateFile();
+
+            File f = new File(dbPath);
+            f.delete();
+            print("Database deleted");
+
+        } else {
+            print("Database does not exist");
+        }
     }
 }

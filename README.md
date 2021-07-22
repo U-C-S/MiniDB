@@ -1,4 +1,4 @@
-# MiniDB
+<h1 align=center>MiniDB</h1>
 
 MiniDB is a type of [key-value](https://en.wikipedia.org/wiki/Key%E2%80%93value_database) like [XML Document Database](https://en.wikipedia.org/wiki/XML_database).
 
@@ -12,16 +12,22 @@ This is my college Project Submission for the following course
 - Course Code: IS4C04
 - Course Instructor: `Mr. Suhaas KP`, Assistant Professor, Department of Information Science and Engineering, `The National Institute Of Engineering`, Mysuru 570008
 
+### Made with
+- OpenJDK 16.0.1
+- Visual Studio Code
+- A bit Powered by [Github-Copilot-preview](https://copilot.github.com/)
+
 ## Usage
 
 Use the following commands to perform [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations on this NoSQL Database.
 
 - `list` to list all the created databases
 - `new {name}` For creating a new database. (`{}` denotes that name is a variable)
-- `use {name}` to select the database from the existing ones for CRUD operations
+- `use {name}` to select the database from the existing ones for CRUD operations.
+- `delete {name}` to delete a database.
 - `schema {}` for declaring schema of the database. (NOTE: schema must be declared first to add any data)
-- `add {}` for adding data to the database. the data seperated with `,` must follow the schema.
-- `read` to read and show the data into the console.
+- `add {}` for adding data to the database. the data is seperated with `,` and must follow the schema.
+- `read` to read and show the data of the database.
 
 ### Example usage
 
@@ -41,4 +47,5 @@ schema id,name,legs
 add 1,cat,4
 add 2,fish,0
 ```
+
 Note: The first element is taken as the id, which is used as a pointer to data. So, it's a good practice to name it as `id` itself.

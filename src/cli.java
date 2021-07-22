@@ -117,8 +117,13 @@ public class cli {
                 break;
             }
 
-            case "update/delete": {
+            case "update": {
 
+                break;
+            }
+
+            case "delete": {
+                registry.deleteDatabase(inputCmds[1]);
                 break;
             }
 
