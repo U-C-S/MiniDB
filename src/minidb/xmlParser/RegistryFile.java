@@ -19,7 +19,6 @@ public class RegistryFile extends XMLFiles {
         super(path);
     }
 
-    @Override
     protected void createFile() {
         Element rootElem = doc.createElement("root");
         Element emptyDb = this.addDbEntry("empty", "true");

@@ -1,9 +1,7 @@
 package constants;
 
 public class constants {
-    public static final String INFO_COMMANDS = "meow";
-
-    public static String VERSION = "v0.3.2";
+    public static String VERSION = "v0.3.1";
 
     static String ROOT_PATH = ".";
     public static String DATA_XML_PATH = ROOT_PATH + "\\minidb.xml";
@@ -29,4 +27,18 @@ public class constants {
     "Enter the Commands: (Use 'exit;' to exit the cli)";
 
     public static String CMD_PREFIXx = "\n> ";
+
+    public static final String HELP_COMMANDS = "\n" +
+    "Commands:\n" +
+    "  exit;           - Exits the program\n" +
+    "  help            - Prints this menu\n" +
+    "  list            - Lists all the databases\n" +
+    "  use <name>      - Select the database\n" +
+    "  drop <name>     - Drops a database if it exists\n" +
+    "  new <name>      - Create a new database\n" +
+    "  schema <data>   - declare the schema for newly created database\n" +
+    "  add <data>      - Inserts data (MUST FOLLOW SCHEMA)\n" +
+    "  read ?<id>      - Shows the data in the database. id is optional\n" +
+    "  delete <table>  - Deletes a row\n";
+
 }

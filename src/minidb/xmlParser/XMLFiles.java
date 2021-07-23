@@ -13,7 +13,7 @@ import org.xml.sax.SAXException;
 
 import constants.constants;
 
-public class XMLFiles {
+public abstract class XMLFiles {
     protected File xmlFile;
     protected Document doc;
 
@@ -36,13 +36,12 @@ public class XMLFiles {
             doc = docBuilder.newDocument();
             createFile();
         } else {
-            doc = docBuilder.parse(xmlFile);;
+            doc = docBuilder.parse(xmlFile);
+            ;
         }
     }
 
-    protected void createFile() {
-        this.updateFile();
-    }
+    abstract void createFile();
 
     /**
      * Call this method to update the XML file.

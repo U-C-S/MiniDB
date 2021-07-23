@@ -7,6 +7,7 @@ import javax.xml.xpath.*;
  * Used for performing CRUD operations and XML parsing on the database file.
  */
 public class DatabaseFile extends XMLFiles {
+    // prefix `X` to avoid namespace conflict
     private static String TAG_STORAGE = "Xstorage";
     private static String TAG_META = "Xmeta";
     private static String TAG_DATA = "Xdata";
@@ -18,9 +19,7 @@ public class DatabaseFile extends XMLFiles {
         super(path);
     }
 
-    @Override
     protected void createFile() {
-        // prefix `X` to avoid namespace conflict
         Element rootElem = doc.createElement("Xroot");
         Element meta = doc.createElement(TAG_META);
         Element data = doc.createElement(TAG_STORAGE);

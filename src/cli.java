@@ -1,4 +1,3 @@
-import java.util.Objects;
 import java.util.Scanner;
 
 import constants.*;
@@ -9,6 +8,7 @@ import minidb.xmlParser.RegistryFile;
 To do
 - Comment the code
 - Table Layout for the data.
+- use threads
 */
 
 public class cli {
@@ -26,7 +26,7 @@ public class cli {
             String currentCmd = input.nextLine();
 
             // break if user wants to exit
-            if (Objects.equals(currentCmd, "exit;")) {
+            if (currentCmd.equals("exit;")) {
                 break;
             }
             long startTime = System.nanoTime();
@@ -35,7 +35,6 @@ public class cli {
 
             long exeTime = (endTime - startTime) / 1000000;
             System.out.println("\nExecution Time: " + exeTime + "ms");
-
         }
 
         input.close();
@@ -66,12 +65,13 @@ public class cli {
                 break;
             }
 
-            case "info": {
-                if (inputCmds[1].equals("commands")) {
-                    System.out.println(constants.INFO_COMMANDS);
-                }
-                // For querying the meta info of the database
+            case "help;": {
+                System.out.println(constants.HELP_COMMANDS);
                 break;
+            }
+
+            case "info": {
+                // For querying the meta info of the database
             }
 
             case "schema": {
@@ -80,8 +80,6 @@ public class cli {
 
                     if (xy.equals("show")) {
                         System.out.println(CurrentDb.getSchema());
-                    } else if (xy.equals("update")) {
-
                     } else {
                         String[] schemaVals = xy.split(",");
                         if (schemaVals.length > 1) {
@@ -141,7 +139,7 @@ public class cli {
             }
 
             default: {
-                System.out.println("UNKNOWN COMMAND: " + inputCmds[0] + "\nType `info commands` for commands list");
+                System.out.println("UNKNOWN COMMAND: " + inputCmds[0] + "\nType `help;` for commands list");
                 break;
             }
         }
@@ -158,6 +156,7 @@ public class cli {
 
 // ✅ add 04,cow,25
 
+// ✅ delete id=2
 // delete id=5..7
 
 // ✅ schema id, name, age
