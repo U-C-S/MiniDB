@@ -1,6 +1,11 @@
 package constants;
 
+/**
+ * A Global store for all the constants used in the application.
+ * In future, we can let the user a create configuration file to modify the constants.
+ */
 public class constants {
+
     public static String VERSION = "v0.3.1";
 
     static String ROOT_PATH = ".";

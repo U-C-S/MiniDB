@@ -1,25 +1,43 @@
 import java.util.Scanner;
-
-import constants.*;
 import minidb.xmlParser.DatabaseFile;
 import minidb.xmlParser.RegistryFile;
+import constants.*;
 
 /*
 To do
 - Comment the code
 - Table Layout for the data.
-- use threads
+- usage of threads
 */
 
+/**
+ * Javadoc comments. All are static methods because we are not creating any
+ * object of this class.
+ * 
+ * @author Chanakya
+ */
 public class cli {
+
+    /**
+     * The Registry File is a XML file which contains the information about the all
+     * the databases created. It acts as a pointer to the Database File. So, We
+     * instantly load the registry file.
+     */
     static RegistryFile registry;
+
+    /**
+     * This attribute is for storing the DatabaseFile instance. Which is assigned
+     * when the user calls the command "use". if the user does not call the command
+     * "use" then the We show a error message.
+     */
     static DatabaseFile CurrentDb;
 
     public static void main(String[] args) {
-        System.out.println(constants.HEADING);
-        registry = new RegistryFile(constants.DATA_XML_PATH);
+        print(constants.HEADING);
 
+        registry = new RegistryFile(constants.DATA_XML_PATH);
         Scanner input = new Scanner(System.in);
+
         while (true) {
             System.out.print(constants.CMD_PREFIX);
 
@@ -34,28 +52,30 @@ public class cli {
             long endTime = System.nanoTime();
 
             long exeTime = (endTime - startTime) / 1000000;
-            System.out.println("\nExecution Time: " + exeTime + "ms");
+            print("\nExecution Time: " + exeTime + "ms");
         }
 
         input.close();
     }
 
     private static void cliInputs(String input) {
-        String[] inputCmds = input.split(" ");
+        String[] cmdArgs = input.split(" ");
 
-        switch (inputCmds[0]) {
+        switch (cmdArgs[0]) {
             case "new": {
-                registry.createNewDatabase(inputCmds[1]);
+                registry.createNewDatabase(cmdArgs[1]);
                 break;
             }
+
             case "use": {
-                String path = registry.getDatabasePath(inputCmds[1], false);
+                String path = registry.getDatabasePath(cmdArgs[1], false);
+
                 if (path != null) {
                     CurrentDb = new DatabaseFile(path);
                     CurrentDb.EditMode();
-                    System.out.println("Successfully loaded Database named: " + inputCmds[1]);
+                    print("Successfully loaded Database named: " + cmdArgs[1]);
                 } else {
-                    System.out.println("Database not found");
+                    print("Database not found");
                 }
                 break;
             }
@@ -66,39 +86,41 @@ public class cli {
             }
 
             case "help;": {
-                System.out.println(constants.HELP_COMMANDS);
+                print(constants.HELP_COMMANDS);
                 break;
             }
 
             case "info": {
                 // For querying the meta info of the database
+                // TODO
             }
 
             case "schema": {
                 if (CurrentDb != null) {
-                    String xy = inputCmds[1];
+                    String xy = cmdArgs[1];
 
                     if (xy.equals("show")) {
-                        System.out.println(CurrentDb.getSchema());
+                        print(CurrentDb.getSchema());
                     } else {
                         String[] schemaVals = xy.split(",");
                         if (schemaVals.length > 1) {
                             CurrentDb.createSchema(xy);
                         } else {
-                            System.out.println("There should be atleast 2 columns of data");
+                            print("There should be atleast 2 columns of data");
                         }
                     }
+
                 } else {
-                    System.out.println(errors.NO_DATABASE_SELECTED);
+                    print(errors.NO_DATABASE_SELECTED);
                 }
                 break;
             }
 
             case "add": {
                 if (CurrentDb != null) {
-                    CurrentDb.addData(inputCmds[1]);
+                    CurrentDb.addData(cmdArgs[1]);
                 } else {
-                    System.out.println(errors.NO_DATABASE_SELECTED);
+                    print(errors.NO_DATABASE_SELECTED);
                 }
 
                 break;
@@ -106,24 +128,25 @@ public class cli {
 
             case "read": {
                 if (CurrentDb != null) {
-                    if (inputCmds.length == 1) {
+                    if (cmdArgs.length == 1) {
                         CurrentDb.readData();
                     } else {
-                        CurrentDb.readData(inputCmds[1]);
+                        CurrentDb.readData(cmdArgs[1]);
                     }
                 } else {
-                    System.out.println(errors.NO_DATABASE_SELECTED);
+                    print(errors.NO_DATABASE_SELECTED);
                 }
 
                 break;
             }
 
             case "drop": {
-                registry.deleteDatabase(inputCmds[1]);
+                registry.deleteDatabase(cmdArgs[1]);
                 break;
             }
 
             case "update": {
+                // TODO
                 if (CurrentDb != null) {
                 }
                 break;
@@ -131,28 +154,29 @@ public class cli {
 
             case "delete": {
                 if (CurrentDb != null) {
-                    CurrentDb.deleteData(inputCmds[1]);
+                    CurrentDb.deleteData(cmdArgs[1]);
                 } else {
-                    System.out.println(errors.NO_DATABASE_SELECTED);
+                    print(errors.NO_DATABASE_SELECTED);
                 }
                 break;
             }
 
             default: {
-                System.out.println("UNKNOWN COMMAND: " + inputCmds[0] + "\nType `help;` for commands list");
+                print("UNKNOWN COMMAND: " + cmdArgs[0] + "\nType `help;` for commands list");
                 break;
             }
         }
     }
 
+    private static void print(String x) {
+        System.out.println(x);
+    }
 }
 
 // Commands that are available
 // ✅ read
 // ✅ read id=2
 // read id=8..99
-
-// update name='cow' where id=2
 
 // ✅ add 04,cow,25
 
@@ -163,5 +187,8 @@ public class cli {
 // schema update id, name,age
 // ✅ schema show
 
-// Future
+// The hardest one:
+// update name='cow' where id=2
+
+// Future:
 // - import/export databases cmds

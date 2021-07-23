@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
-
 import constants.constants;
 
 /**
@@ -19,7 +18,7 @@ public class RegistryFile extends XMLFiles {
         super(path);
     }
 
-    protected void createFile() {
+    void createFile() {
         Element rootElem = doc.createElement("root");
         Element emptyDb = this.addDbEntry("empty", "true");
 

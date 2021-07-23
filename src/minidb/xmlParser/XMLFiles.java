@@ -2,17 +2,19 @@ package minidb.xmlParser;
 
 import java.io.File;
 import java.io.IOException;
-
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import constants.constants;
 
+/**
+ * A abstract class with specfic set of methods to avoid repitition of code.
+ * @param path
+ */
 public abstract class XMLFiles {
     protected File xmlFile;
     protected Document doc;
@@ -34,7 +36,7 @@ public abstract class XMLFiles {
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         if (NoFile) {
             doc = docBuilder.newDocument();
-            createFile();
+            createFile(); // abstract method to create the file
         } else {
             doc = docBuilder.parse(xmlFile);
             ;
