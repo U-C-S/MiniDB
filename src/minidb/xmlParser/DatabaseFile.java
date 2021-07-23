@@ -1,7 +1,7 @@
 package minidb.xmlParser;
 
 import org.w3c.dom.*;
-import java.util.StringJoiner;
+import javax.xml.xpath.*;
 
 /**
  * Used for performing CRUD operations and XML parsing on the database file.
@@ -10,7 +10,7 @@ public class DatabaseFile extends XMLFiles {
     private static String TAG_STORAGE = "Xstorage";
     private static String TAG_META = "Xmeta";
     private static String TAG_DATA = "Xdata";
-    // private Element schemaElem;
+
     private Element metaElem;
     private Element storageElem;
 
@@ -20,7 +20,7 @@ public class DatabaseFile extends XMLFiles {
 
     @Override
     protected void createFile() {
-        // prefix `X` to avoid name space conflict
+        // prefix `X` to avoid namespace conflict
         Element rootElem = doc.createElement("Xroot");
         Element meta = doc.createElement(TAG_META);
         Element data = doc.createElement(TAG_STORAGE);
@@ -90,6 +90,36 @@ public class DatabaseFile extends XMLFiles {
 
             print(dataString.trim());
         }
-
     }
+
+    public void readData(String id) {
+        // just Trying the Xpath API, instead of using DOM API
+        try {
+            XPath xPath = XPathFactory.newInstance().newXPath();
+            Node nameNode = (Node) xPath.compile("/Xroot/Xstorage/Xdata[@id=" + id + "]/name").evaluate(doc,
+                    XPathConstants.NODE);
+            if (nameNode != null) {
+                System.out.println(nameNode.getTextContent());
+            }
+
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteData(String id) {
+        try {
+            XPath xPath = XPathFactory.newInstance().newXPath();
+            Node nameNode = (Node) xPath.compile("/Xroot/Xstorage/Xdata[@id=" + id + "]").evaluate(doc,
+                    XPathConstants.NODE);
+            if (nameNode != null) {
+                nameNode.getParentNode().removeChild(nameNode);
+                this.updateFile();
+            }
+
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

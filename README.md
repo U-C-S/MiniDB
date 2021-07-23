@@ -21,13 +21,14 @@ This is my college Project Submission for the following course
 
 Use the following commands to perform [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations on this NoSQL Database.
 
-- `list` to list all the created databases
+- `list` to list all the created databases.
 - `new {name}` For creating a new database. (`{}` denotes that name is a variable)
 - `use {name}` to select the database from the existing ones for CRUD operations.
-- `delete {name}` to delete a database.
+- `drop {name}` to delete a database.
 - `schema {}` for declaring schema of the database. (NOTE: schema must be declared first to add any data)
 - `add {}` for adding data to the database. the data is seperated with `,` and must follow the schema.
-- `read` to read and show the data of the database.
+- `read` to show the all data of the database.
+- `delete {id}` for deleting data which has specified id. 
 
 ### Example usage
 

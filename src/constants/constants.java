@@ -1,7 +1,9 @@
 package constants;
 
 public class constants {
-    public static String VERSION = "v0.3.0";
+    public static final String INFO_COMMANDS = "meow";
+
+    public static String VERSION = "v0.3.2";
 
     static String ROOT_PATH = ".";
     public static String DATA_XML_PATH = ROOT_PATH + "\\minidb.xml";

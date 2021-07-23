@@ -1,9 +1,7 @@
 import java.util.Objects;
 import java.util.Scanner;
 
-import org.w3c.dom.Document;
-
-import constants.constants;
+import constants.*;
 import minidb.xmlParser.DatabaseFile;
 import minidb.xmlParser.RegistryFile;
 
@@ -69,6 +67,9 @@ public class cli {
             }
 
             case "info": {
+                if (inputCmds[1].equals("commands")) {
+                    System.out.println(constants.INFO_COMMANDS);
+                }
                 // For querying the meta info of the database
                 break;
             }
@@ -90,7 +91,7 @@ public class cli {
                         }
                     }
                 } else {
-                    System.out.println("You need to select a database first with `use` command");
+                    System.out.println(errors.NO_DATABASE_SELECTED);
                 }
                 break;
             }
@@ -99,7 +100,7 @@ public class cli {
                 if (CurrentDb != null) {
                     CurrentDb.addData(inputCmds[1]);
                 } else {
-                    System.out.println("You need to select a database first with `use` command");
+                    System.out.println(errors.NO_DATABASE_SELECTED);
                 }
 
                 break;
@@ -107,23 +108,35 @@ public class cli {
 
             case "read": {
                 if (CurrentDb != null) {
-                    CurrentDb.readData();
+                    if (inputCmds.length == 1) {
+                        CurrentDb.readData();
+                    } else {
+                        CurrentDb.readData(inputCmds[1]);
+                    }
+                } else {
+                    System.out.println(errors.NO_DATABASE_SELECTED);
                 }
+
                 break;
             }
 
             case "drop": {
-
+                registry.deleteDatabase(inputCmds[1]);
                 break;
             }
 
             case "update": {
-
+                if (CurrentDb != null) {
+                }
                 break;
             }
 
             case "delete": {
-                registry.deleteDatabase(inputCmds[1]);
+                if (CurrentDb != null) {
+                    CurrentDb.deleteData(inputCmds[1]);
+                } else {
+                    System.out.println(errors.NO_DATABASE_SELECTED);
+                }
                 break;
             }
 
@@ -138,6 +151,7 @@ public class cli {
 
 // Commands that are available
 // ✅ read
+// ✅ read id=2
 // read id=8..99
 
 // update name='cow' where id=2
