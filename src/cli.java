@@ -27,12 +27,16 @@ public class cli {
     /**
      * registry can be a singleton
      */
-    RegistryFile registry;
+    RegistryFile registry = RegistryFile.getInstance();
 
     /**
      * This attribute is for storing the DatabaseFile instance. Which is assigned
      * when the user calls the command "use". if the user does not call the command
      * "use" then we show an error message.
+     */
+
+    /**
+     * can be assigned to a state pattern
      */
     DatabaseFile CurrentDb;
 
@@ -42,7 +46,7 @@ public class cli {
     public void run() {
         print(constants.HEADING);
 
-        registry = new RegistryFile(constants.DATA_XML_PATH);
+//        registry = new RegistryFile(constants.DATA_XML_PATH);
         Scanner input = new Scanner(System.in);
 
         while (true) {
@@ -91,11 +95,6 @@ public class cli {
                 break;
             }
 
-            case "info": {
-                // For querying the meta info of the database
-                // TODO
-            }
-
             case "schema": {
                 schemaCommand(cmdArgs[1]);
                 break;
@@ -114,14 +113,6 @@ public class cli {
 
             case "drop": {
                 dropTable(cmdArgs[1]);
-                break;
-            }
-
-            //code smell
-            case "update": {
-                // TODO
-                if (CurrentDb != null) {
-                }
                 break;
             }
 

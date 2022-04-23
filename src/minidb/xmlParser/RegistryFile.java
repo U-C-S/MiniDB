@@ -18,8 +18,17 @@ import constants.constants;
  */
 public class RegistryFile extends XMLFiles {
 
-    public RegistryFile(String path) {
+    private static RegistryFile registryFile;
+
+    private RegistryFile(String path) {
         super(path);
+    }
+
+    public static RegistryFile getInstance()
+    {
+        if (registryFile == null)
+            registryFile = new RegistryFile(constants.DATA_XML_PATH);
+        return registryFile;
     }
 
     void createFile() {
