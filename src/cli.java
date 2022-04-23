@@ -23,6 +23,10 @@ public class cli {
      * the databases created. It acts as a pointer to the Database File. So, We
      * instantly load the registry file.
      */
+
+    /**
+     * registry can be a singleton
+     */
     static RegistryFile registry;
 
     /**
@@ -61,6 +65,9 @@ public class cli {
     private static void cliInputs(String input) {
         String[] cmdArgs = input.split(" ");
 
+        /**
+         * Strategy pattern can be implemented to ensure OCP
+         */
         switch (cmdArgs[0]) {
             case "new": {
                 registry.createNewDatabase(cmdArgs[1]);
