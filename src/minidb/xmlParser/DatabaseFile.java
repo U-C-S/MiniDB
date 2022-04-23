@@ -8,11 +8,10 @@ import javax.xml.xpath.*;
  */
 public class DatabaseFile extends XMLFiles {
     // prefix `X` to avoid namespace conflict
-    private static String TAG_STORAGE = "Xstorage";
-    private static String TAG_META = "Xmeta"; // incomplete feature
-    private static String TAG_DATA = "Xdata";
+    private static final String TAG_STORAGE = "Xstorage";
+    private static final String TAG_META = "Xmeta"; // incomplete feature
+    private static final String TAG_DATA = "Xdata";
 
-    private Element metaElem;
     private Element storageElem;
 
     public DatabaseFile(String path) {
@@ -32,9 +31,9 @@ public class DatabaseFile extends XMLFiles {
     }
 
     public void EditMode() {
-        metaElem = (Element) doc.getElementsByTagName(TAG_META).item(0);
+//        Element metaElem = (Element) doc.getElementsByTagName(TAG_META).item(0);
         storageElem = (Element) doc.getElementsByTagName(TAG_STORAGE).item(0);
-        // System.out.println("Edit Mode On; " + schemaElem.getAttribute("val"));
+//         System.out.println("Edit Mode On; " + schemaElem.getAttribute("val"));
     }
 
     public String getSchema() {

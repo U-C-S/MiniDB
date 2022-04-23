@@ -31,6 +31,9 @@ public abstract class XMLFiles {
         }
     }
 
+    /**
+     * already used factory pattern
+     */
     private void load(boolean NoFile) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -39,7 +42,6 @@ public abstract class XMLFiles {
             createFile(); // abstract method to create the file
         } else {
             doc = docBuilder.parse(xmlFile);
-            ;
         }
     }
 
@@ -47,6 +49,7 @@ public abstract class XMLFiles {
 
     /**
      * Call this method to update the XML file.
+     * also used abstract factory
      */
     protected void updateFile() {
         try {

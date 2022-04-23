@@ -27,16 +27,19 @@ public class cli {
     /**
      * registry can be a singleton
      */
-    static RegistryFile registry;
+    RegistryFile registry;
 
     /**
      * This attribute is for storing the DatabaseFile instance. Which is assigned
      * when the user calls the command "use". if the user does not call the command
-     * "use" then the We show a error message.
+     * "use" then we show an error message.
      */
-    static DatabaseFile CurrentDb;
+    DatabaseFile CurrentDb;
 
-    public static void main(String[] args) {
+    /*
+        function okay
+     */
+    public void run() {
         print(constants.HEADING);
 
         registry = new RegistryFile(constants.DATA_XML_PATH);
@@ -45,14 +48,13 @@ public class cli {
         while (true) {
             System.out.print(constants.CMD_PREFIX);
 
-            String currentCmd = input.nextLine();
+            String currentCmdCommand = input.nextLine();
 
-            // break if user wants to exit
-            if (currentCmd.equals("exit;")) {
+            if (currentCmdCommand.equals("exit;")) {
                 break;
             }
             long startTime = System.nanoTime();
-            cliInputs(currentCmd);
+            executeCliInputs(currentCmdCommand);
             long endTime = System.nanoTime();
 
             long exeTime = (endTime - startTime) / 1000000;
@@ -62,7 +64,7 @@ public class cli {
         input.close();
     }
 
-    private static void cliInputs(String input) {
+    private void executeCliInputs(String input) {
         String[] cmdArgs = input.split(" ");
 
         /**
@@ -70,30 +72,22 @@ public class cli {
          */
         switch (cmdArgs[0]) {
             case "new": {
-                registry.createNewDatabase(cmdArgs[1]);
+                createNewDatabase(cmdArgs[1]);
                 break;
             }
 
             case "use": {
-                String path = registry.getDatabasePath(cmdArgs[1], false);
-
-                if (path != null) {
-                    CurrentDb = new DatabaseFile(path);
-                    CurrentDb.EditMode();
-                    print("Successfully loaded Database named: " + cmdArgs[1]);
-                } else {
-                    print("Database not found");
-                }
+                useDatabase(cmdArgs[1]);
                 break;
             }
 
             case "list": {
-                registry.listAllDatabases();
+                listAllDatabase();
                 break;
             }
 
             case "help;": {
-                print(constants.HELP_COMMANDS);
+                showHelp();
                 break;
             }
 
@@ -103,32 +97,12 @@ public class cli {
             }
 
             case "schema": {
-                if (CurrentDb != null) {
-                    String xy = cmdArgs[1];
-
-                    if (xy.equals("show")) {
-                        print(CurrentDb.getSchema());
-                    } else {
-                        String[] schemaVals = xy.split(",");
-                        if (schemaVals.length > 1) {
-                            CurrentDb.createSchema(xy);
-                        } else {
-                            print("There should be atleast 2 columns of data");
-                        }
-                    }
-
-                } else {
-                    print(errors.NO_DATABASE_SELECTED);
-                }
+                schemaCommand(cmdArgs[1]);
                 break;
             }
 
             case "add": {
-                if (CurrentDb != null) {
-                    CurrentDb.addData(cmdArgs[1]);
-                } else {
-                    print(errors.NO_DATABASE_SELECTED);
-                }
+                addRecordToDB(cmdArgs[1]);
 
                 break;
             }
@@ -152,6 +126,7 @@ public class cli {
                 break;
             }
 
+            //code smell
             case "update": {
                 // TODO
                 if (CurrentDb != null) {
@@ -169,10 +144,66 @@ public class cli {
             }
 
             default: {
-                print("UNKNOWN COMMAND: " + cmdArgs[0] + "\nType `help;` for commands list");
+                unknownCommandMsg(cmdArgs[0]);
                 break;
             }
         }
+    }
+
+    private void addRecordToDB(String cmdArgs) {
+        if (CurrentDb != null) {
+            CurrentDb.addData(cmdArgs);
+        } else {
+            print(errors.NO_DATABASE_SELECTED);
+        }
+    }
+
+    private void schemaCommand(String cmdArgs) {
+        if (CurrentDb != null) {
+            String xy = cmdArgs;
+
+            if (xy.equals("show")) {
+                print(CurrentDb.getSchema());
+            } else {
+                String[] schemaVals = xy.split(",");
+                if (schemaVals.length > 1) {
+                    CurrentDb.createSchema(xy);
+                } else {
+                    print("There should be at least 2 columns of data");
+                }
+            }
+
+        } else {
+            print(errors.NO_DATABASE_SELECTED);
+        }
+    }
+
+    private void unknownCommandMsg(String cmdArgs) {
+        print("UNKNOWN COMMAND: " + cmdArgs + "\nType `help;` for commands list");
+    }
+
+    private void showHelp() {
+        print(constants.HELP_COMMANDS);
+    }
+
+    private void listAllDatabase() {
+        registry.listAllDatabases();
+    }
+
+    private void useDatabase(String name) {
+        String path = registry.getDatabasePath(name, false);
+
+        if (path != null) {
+            CurrentDb = new DatabaseFile(path);
+            CurrentDb.EditMode();
+            print("Successfully loaded Database named: " + name);
+        } else {
+            print("Database not found");
+        }
+    }
+
+    private void createNewDatabase(String name) {
+        registry.createNewDatabase(name);
     }
 
     private static void print(String x) {

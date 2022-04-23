@@ -12,6 +12,10 @@ import constants.constants;
  * Contains the methods for performing CRUD operations on the registry file
  * 'minidb.xml'
  */
+
+/**
+ * Should be a singleton instance
+ */
 public class RegistryFile extends XMLFiles {
 
     public RegistryFile(String path) {
