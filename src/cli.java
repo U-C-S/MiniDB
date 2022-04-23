@@ -103,26 +103,17 @@ public class cli {
 
             case "add": {
                 addRecordToDB(cmdArgs[1]);
-
                 break;
             }
 
             case "read": {
-                if (CurrentDb != null) {
-                    if (cmdArgs.length == 1) {
-                        CurrentDb.readData();
-                    } else {
-                        CurrentDb.readData(cmdArgs[1]);
-                    }
-                } else {
-                    print(errors.NO_DATABASE_SELECTED);
-                }
+                readFromDB(cmdArgs);
 
                 break;
             }
 
             case "drop": {
-                registry.deleteDatabase(cmdArgs[1]);
+                dropTable(cmdArgs[1]);
                 break;
             }
 
@@ -135,11 +126,7 @@ public class cli {
             }
 
             case "delete": {
-                if (CurrentDb != null) {
-                    CurrentDb.deleteData(cmdArgs[1]);
-                } else {
-                    print(errors.NO_DATABASE_SELECTED);
-                }
+                deleteFromDB(cmdArgs[1]);
                 break;
             }
 
@@ -147,6 +134,30 @@ public class cli {
                 unknownCommandMsg(cmdArgs[0]);
                 break;
             }
+        }
+    }
+
+    private void deleteFromDB(String cmdArgs) {
+        if (CurrentDb != null) {
+            CurrentDb.deleteData(cmdArgs);
+        } else {
+            print(errors.NO_DATABASE_SELECTED);
+        }
+    }
+
+    private void dropTable(String cmdArgs) {
+        registry.deleteDatabase(cmdArgs);
+    }
+
+    private void readFromDB(String[] cmdArgs) {
+        if (CurrentDb != null) {
+            if (cmdArgs.length == 1) {
+                CurrentDb.readData();
+            } else {
+                CurrentDb.readData(cmdArgs[1]);
+            }
+        } else {
+            print(errors.NO_DATABASE_SELECTED);
         }
     }
 
