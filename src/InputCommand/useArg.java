@@ -13,8 +13,8 @@ public class useArg implements ArgStrategy, UseSetCurrentDb{
     }
 
     @Override
-    public void setCurrentDb(DatabaseFile currentDb) {
-        this.CurrentDb = currentDb;
+    public void setCurrentDb(String path) {
+        this.CurrentDb = new DatabaseFile(path);
     }
 
     @Override
@@ -30,9 +30,11 @@ public class useArg implements ArgStrategy, UseSetCurrentDb{
         String path = registry.getDatabasePath(cmdArgs[1], false);
 
         if (path != null) {
+            CurrentDb = new DatabaseFile(path);
             currentDBO.updateAll(path);
             CurrentDb.EditMode();
-            System.out.println("Successfully loaded Database named: " + arg);
+            System.out.println(path);
+            System.out.println("Successfully loaded Database named: " + cmdArgs[0]);
         } else {
             System.out.println("Database not found");
         }

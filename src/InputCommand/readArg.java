@@ -7,8 +7,8 @@ public class readArg implements ArgStrategy, UseSetCurrentDb {
     private DatabaseFile CurrentDb;
 
     @Override
-    public void setCurrentDb(DatabaseFile currentDb){
-        this.CurrentDb = currentDb;
+    public void setCurrentDb(String path){
+        this.CurrentDb = new DatabaseFile(path);
     }
 
     @Override

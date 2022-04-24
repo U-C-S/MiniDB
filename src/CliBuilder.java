@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class CliBuilder {
     public cli buildCli () {
-        cli c = null;
+        cli c = new cli();
 
         ArrayList<ArgStrategy> argslist = new ArrayList<>();
         ArrayList<UseSetCurrentDb> usedInCurrentDBO = new ArrayList<>();
@@ -30,7 +30,7 @@ public class CliBuilder {
 
         useArg use = new useArg();
         argslist.add(use);
-        usedInCurrentDBO.add(use);
+//        usedInCurrentDBO.add(use);
         CurrentDBObserver observer = new CurrentDBObserver(usedInCurrentDBO);
         use.setCurrentDBO(observer);
 
@@ -46,7 +46,7 @@ public class CliBuilder {
         newArg newA = new newArg();
         argslist.add(newA);
 
-
+        c.setArgsList(argslist);
 
         return c;
     }

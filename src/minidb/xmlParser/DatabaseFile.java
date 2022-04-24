@@ -12,6 +12,7 @@ public class DatabaseFile extends XMLFiles {
     private static final String TAG_META = "Xmeta"; // incomplete feature
     private static final String TAG_DATA = "Xdata";
 
+    private Element metaElem;
     private Element storageElem;
 
     public DatabaseFile(String path) {
@@ -31,9 +32,9 @@ public class DatabaseFile extends XMLFiles {
     }
 
     public void EditMode() {
-//        Element metaElem = (Element) doc.getElementsByTagName(TAG_META).item(0);
+        metaElem = (Element) doc.getElementsByTagName(TAG_META).item(0);
         storageElem = (Element) doc.getElementsByTagName(TAG_STORAGE).item(0);
-//         System.out.println("Edit Mode On; " + schemaElem.getAttribute("val"));
+        // System.out.println("Edit Mode On; " + schemaElem.getAttribute("val"));
     }
 
     public String getSchema() {

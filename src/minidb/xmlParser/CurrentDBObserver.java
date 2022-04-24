@@ -5,7 +5,7 @@ import InputCommand.UseSetCurrentDb;
 import java.util.ArrayList;
 
 public class CurrentDBObserver {
-    private ArrayList<UseSetCurrentDb> strategyArrayList;
+    private final ArrayList<UseSetCurrentDb> strategyArrayList;
 
     public CurrentDBObserver(ArrayList<UseSetCurrentDb> strategyArrayList) {
         this.strategyArrayList = strategyArrayList;
@@ -17,11 +17,7 @@ public class CurrentDBObserver {
 
     public void updateAll(String path) {
         for (UseSetCurrentDb argStart: strategyArrayList) {
-            argStart.setCurrentDb(getNewDatabaseFile(path));
+            argStart.setCurrentDb(path);
         }
-    }
-
-    private DatabaseFile getNewDatabaseFile (String path) {
-        return new DatabaseFile(path);
     }
 }

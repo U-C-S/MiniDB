@@ -1,7 +1,8 @@
 public class MainClass {
     public static void main(String[] args) {
         System.out.println("my smell");
-        cli db_cli = new cli();
+        CliBuilder cb = new CliBuilder();
+        cli db_cli = cb.buildCli();
         db_cli.run();
     }
 }

@@ -16,6 +16,10 @@ public class cli {
     public cli() {
     }
 
+    public void setArgsList(ArrayList<ArgStrategy> argsList) {
+        this.argsList = argsList;
+    }
+
     public void run() {
         print(constants.HEADING);
 
@@ -30,7 +34,8 @@ public class cli {
                 break;
             }
             long startTime = System.nanoTime();
-            executeCliInputs(currentCmdCommand);
+//            executeCliInputs(currentCmdCommand);
+            eCI(currentCmdCommand);
             long endTime = System.nanoTime();
 
             long exeTime = (endTime - startTime) / 1000000;
@@ -41,25 +46,21 @@ public class cli {
     }
 
     private void eCI (String cmdInp) {
-        String[] matchInp = cmdInp.split(" ", 0);
         ArgStrategy responseStrat = new notFoundArg();
 
         for(ArgStrategy arg: argsList) {
-            if(arg.matchArg(matchInp[0])){
+            if(arg.matchArg(cmdInp)){
                 responseStrat = arg;
                 break;
             }
         }
 
-        
+        responseStrat.execCmd(cmdInp);
     }
 
     private void executeCliInputs(String input) {
         String[] cmdArgs = input.split(" ");
 
-        /**
-         * Strategy pattern can be implemented to ensure OCP
-         */
         switch (cmdArgs[0]) {
             case "new": {
                 createNewDatabase(cmdArgs[1]);

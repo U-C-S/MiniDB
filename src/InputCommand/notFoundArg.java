@@ -8,6 +8,7 @@ public class notFoundArg implements ArgStrategy{
 
     @Override
     public void execCmd(String arg) {
-        System.out.println("UNKNOWN COMMAND: " + arg + "\nType `help;` for commands list");
+        String[] cmdArgs = arg.split(" ");
+        System.out.println("UNKNOWN COMMAND: " + cmdArgs[0] + "\nType `help;` for commands list");
     }
 }
