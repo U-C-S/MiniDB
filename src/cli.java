@@ -3,50 +3,13 @@ import minidb.xmlParser.DatabaseFile;
 import minidb.xmlParser.RegistryFile;
 import constants.*;
 
-/*
-To do
-- Comment the code
-- Table Layout for the data.
-- usage of threads
-*/
-
-/**
- * Javadoc comments. All are static methods because we are not creating any
- * object of this class.
- * 
- * @author Chanakya
- */
 public class cli {
-
-    /**
-     * The Registry File is a XML file which contains the information about the all
-     * the databases created. It acts as a pointer to the Database File. So, We
-     * instantly load the registry file.
-     */
-
-    /**
-     * registry can be a singleton
-     */
     RegistryFile registry = RegistryFile.getInstance();
-
-    /**
-     * This attribute is for storing the DatabaseFile instance. Which is assigned
-     * when the user calls the command "use". if the user does not call the command
-     * "use" then we show an error message.
-     */
-
-    /**
-     * can be assigned to a state pattern
-     */
     DatabaseFile CurrentDb;
 
-    /*
-        function okay
-     */
     public void run() {
         print(constants.HEADING);
 
-//        registry = new RegistryFile(constants.DATA_XML_PATH);
         Scanner input = new Scanner(System.in);
 
         while (true) {

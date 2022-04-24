@@ -4,6 +4,4 @@ public class MainClass {
         cli db_cli = new cli();
         db_cli.run();
     }
-
-
 }
