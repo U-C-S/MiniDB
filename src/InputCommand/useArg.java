@@ -1,15 +1,20 @@
 package InputCommand;
 
-import minidb.xmlParser.CurrentDBOserver;
+import minidb.xmlParser.CurrentDBObserver;
 import minidb.xmlParser.DatabaseFile;
 import minidb.xmlParser.RegistryFile;
 
-public class useArg implements ArgStrategy{
+public class useArg implements ArgStrategy, UseSetCurrentDb{
     private DatabaseFile CurrentDb;
-    private final CurrentDBOserver currentDBO;
+    private CurrentDBObserver currentDBO;
 
-    public useArg(CurrentDBOserver currentDBO) {
+    public void setCurrentDBO(CurrentDBObserver currentDBO) {
         this.currentDBO = currentDBO;
+    }
+
+    @Override
+    public void setCurrentDb(DatabaseFile currentDb) {
+        this.CurrentDb = currentDb;
     }
 
     @Override
@@ -23,8 +28,10 @@ public class useArg implements ArgStrategy{
         String path = registry.getDatabasePath(arg, false);
 
         if (path != null) {
-            CurrentDb = new DatabaseFile(path);
+//            CurrentDb = new DatabaseFile(path);
 //            CurrentDb.EditMode();
+            currentDBO.updateAll(path);
+            CurrentDb.EditMode();
             System.out.println("Successfully loaded Database named: " + arg);
         } else {
             System.out.println("Database not found");
