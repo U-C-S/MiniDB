@@ -106,7 +106,7 @@ public class cli {
             }
 
             case "read": {
-                readFromDB(cmdArgs);
+                readFromDB(input);
 
                 break;
             }
@@ -140,7 +140,8 @@ public class cli {
         registry.deleteDatabase(cmdArgs);
     }
 
-    private void readFromDB(String[] cmdArgs) {
+    private void readFromDB(String inpArgs) {
+        String[] cmdArgs = inpArgs.split(" ");
         if (CurrentDb != null) {
             if (cmdArgs.length == 1) {
                 CurrentDb.readData();

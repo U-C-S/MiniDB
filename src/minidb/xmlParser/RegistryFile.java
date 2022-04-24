@@ -20,7 +20,6 @@ public class RegistryFile extends XMLFiles {
 
     private static RegistryFile registryFile;
 
-
     private RegistryFile(String path) {
         super(path);
     }
