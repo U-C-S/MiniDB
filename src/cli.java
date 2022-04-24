@@ -34,8 +34,8 @@ public class cli {
                 break;
             }
             long startTime = System.nanoTime();
-//            executeCliInputs(currentCmdCommand);
-            eCI(currentCmdCommand);
+            executeCliInputs(currentCmdCommand);
+//            executeCliInputs1(currentCmdCommand);
             long endTime = System.nanoTime();
 
             long exeTime = (endTime - startTime) / 1000000;
@@ -45,7 +45,7 @@ public class cli {
         input.close();
     }
 
-    private void eCI (String cmdInp) {
+    private void executeCliInputs1 (String cmdInp) {
         ArgStrategy responseStrat = new notFoundArg();
 
         for(ArgStrategy arg: argsList) {

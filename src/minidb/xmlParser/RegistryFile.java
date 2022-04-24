@@ -8,14 +8,6 @@ import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import constants.constants;
 
-/**
- * Contains the methods for performing CRUD operations on the registry file
- * 'minidb.xml'
- */
-
-/**
- * Should be a singleton instance
- */
 public class RegistryFile extends XMLFiles {
 
     private static RegistryFile registryFile;
@@ -44,13 +36,6 @@ public class RegistryFile extends XMLFiles {
         System.out.println("Intialized: " + xmlFile.getPath());
     }
 
-    /**
-     * 
-     * @param name     - Name of the database
-     * @param disabled - Always false for user created databases
-     * @return The XML Element which can be appended into the doc
-     * @throws ParserConfigurationException
-     */
     private Element addDbEntry(String name, String disabled) {
         Document doc = this.doc;
 
@@ -78,12 +63,6 @@ public class RegistryFile extends XMLFiles {
         return databaseElem;
     }
 
-    /**
-     * Method for creating a new database. Which means both creating a entry in the
-     * minidb.xml and A new database-xml file.
-     * 
-     * @param name - The name of the database
-     */
     public void createNewDatabase(String name) {
         try {
             if (!this.isDatabaseExists(name)) {
@@ -102,9 +81,6 @@ public class RegistryFile extends XMLFiles {
         }
     }
 
-    /**
-     * To list all the created databases in the register
-     */
     public void listAllDatabases() {
         NodeList list = this.doc.getElementsByTagName("name");
 
@@ -115,12 +91,6 @@ public class RegistryFile extends XMLFiles {
         }
     }
 
-    /**
-     * Checks if the database name already exists in the register
-     * 
-     * @param name - The name of the database
-     * @return The index of the database in the register, if not found returns -1
-     */
     public int checkDatabase(String name) {
         int x = -1;
         NodeList list = this.doc.getElementsByTagName("name");
