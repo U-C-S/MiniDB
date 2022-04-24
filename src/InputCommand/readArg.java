@@ -13,7 +13,8 @@ public class readArg implements ArgStrategy, UseSetCurrentDb {
 
     @Override
     public boolean matchArg(String arg) {
-        return arg.equals("read");
+        String[] cmdArgs = arg.split(" ");
+        return cmdArgs[0].equals("read");
     }
 
     @Override

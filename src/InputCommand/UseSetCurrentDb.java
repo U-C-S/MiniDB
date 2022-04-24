@@ -1,5 +1,6 @@
 package InputCommand;
 
+import minidb.xmlParser.CurrentDBObserver;
 import minidb.xmlParser.DatabaseFile;
 
 public interface UseSetCurrentDb {

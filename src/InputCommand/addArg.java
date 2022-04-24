@@ -13,13 +13,15 @@ public class addArg implements ArgStrategy, UseSetCurrentDb {
 
     @Override
     public boolean matchArg(String arg) {
-        return arg.equals("add");
+        String[] cmdArgs = arg.split(" ");
+        return cmdArgs[0].equals("add");
     }
 
     @Override
     public void execCmd(String arg) {
+        String[] cmdArgs = arg.split(" ");
         if (CurrentDb != null) {
-            CurrentDb.addData(arg);
+            CurrentDb.addData(cmdArgs[1]);
         } else {
             System.out.println(errors.NO_DATABASE_SELECTED);
         }

@@ -1,11 +1,20 @@
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import InputCommand.ArgStrategy;
+import InputCommand.notFoundArg;
 import minidb.xmlParser.DatabaseFile;
 import minidb.xmlParser.RegistryFile;
 import constants.*;
 
 public class cli {
+    private ArrayList<ArgStrategy> argsList;
+
     RegistryFile registry = RegistryFile.getInstance();
     DatabaseFile CurrentDb;
+
+    public cli() {
+    }
 
     public void run() {
         print(constants.HEADING);
@@ -29,6 +38,20 @@ public class cli {
         }
 
         input.close();
+    }
+
+    private void eCI (String cmdInp) {
+        String[] matchInp = cmdInp.split(" ", 0);
+        ArgStrategy responseStrat = new notFoundArg();
+
+        for(ArgStrategy arg: argsList) {
+            if(arg.matchArg(matchInp[0])){
+                responseStrat = arg;
+                break;
+            }
+        }
+
+        
     }
 
     private void executeCliInputs(String input) {

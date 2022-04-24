@@ -19,17 +19,17 @@ public class useArg implements ArgStrategy, UseSetCurrentDb{
 
     @Override
     public boolean matchArg(String arg) {
-        return arg.equals("use");
+        String[] cmdArgs = arg.split(" ");
+        return cmdArgs[0].equals("use");
     }
 
     @Override
     public void execCmd(String arg) {
+        String[] cmdArgs = arg.split(" ");
         RegistryFile registry = RegistryFile.getInstance();
-        String path = registry.getDatabasePath(arg, false);
+        String path = registry.getDatabasePath(cmdArgs[1], false);
 
         if (path != null) {
-//            CurrentDb = new DatabaseFile(path);
-//            CurrentDb.EditMode();
             currentDBO.updateAll(path);
             CurrentDb.EditMode();
             System.out.println("Successfully loaded Database named: " + arg);

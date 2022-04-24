@@ -13,13 +13,15 @@ public class schemaArg implements ArgStrategy, UseSetCurrentDb {
 
     @Override
     public boolean matchArg(String arg) {
-        return arg.equals("schema");
+        String[] cmdArgs = arg.split(" ");
+        return cmdArgs[0].equals("schema");
     }
 
     @Override
     public void execCmd(String arg) {
+        String[] cmdArgs = arg.split(" ");
         if (CurrentDb != null) {
-            String xy = arg;
+            String xy = cmdArgs[1];
 
             if (xy.equals("show")) {
                 System.out.println(CurrentDb.getSchema());

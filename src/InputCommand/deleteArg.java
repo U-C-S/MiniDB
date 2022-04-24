@@ -13,13 +13,15 @@ public class deleteArg implements ArgStrategy, UseSetCurrentDb {
 
     @Override
     public boolean matchArg(String arg) {
-        return arg.equals("delete");
+        String[] cmdArgs = arg.split(" ");
+        return cmdArgs[0].equals("delete");
     }
 
     @Override
     public void execCmd(String arg) {
+        String[] cmdArgs = arg.split(" ");
         if (CurrentDb != null) {
-            CurrentDb.deleteData(arg);
+            CurrentDb.deleteData(cmdArgs[1]);
         } else {
             System.out.println(errors.NO_DATABASE_SELECTED);
         }
