@@ -8,9 +8,9 @@ import javax.xml.xpath.*;
  */
 public class DatabaseFile extends XMLFiles {
     // prefix `X` to avoid namespace conflict
-    private static String TAG_STORAGE = "Xstorage";
-    private static String TAG_META = "Xmeta"; // incomplete feature
-    private static String TAG_DATA = "Xdata";
+    private static final String TAG_STORAGE = "Xstorage";
+    private static final String TAG_META = "Xmeta"; // incomplete feature
+    private static final String TAG_DATA = "Xdata";
 
     private Element metaElem;
     private Element storageElem;
